@@ -13,11 +13,40 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
     <div class="col-lg-6 col-md-8 mx-auto">
       <div class="text-center">
         <h1 class="fw-light">VizAbility</h1>
-        <p class="lead text-muted">For blind professionals to create infographics and visualizations to communicate data insights for presentation to sighted colleagues, etc</p>
+        <p class="lead text-muted">For blind professionals to create infographics and visualizations to communicate data insights for presentation to sighted colleagues, etc. We promise results will be: Professional, Consistently Designed, and Accurately Represent the Data</p>
       </div>
     </div>
   </div>
 </section>
 
+<div class="container mt-4">
+  <h2>Generate Professional Visualizations</h2>
+  <p>Upload a CSV, background, and insights you'd like your audience to take away. We'll generate three professional visualizations with pros and cons for you to either (1) iterate or (2) share with colleagues for feedback.</p>
+  <form>
+      <!-- File input for CSV Upload -->
+      <div class="mb-3">
+          <label for="csvFileInput" class="form-label">Upload CSV</label>
+          <input class="form-control" type="file" id="csvFileInput" accept=".csv" aria-describedby="csvFileHelp">
+          <div id="csvFileHelp" class="form-text">Upload your project CSV file here.</div>
+      </div>
+
+      <!-- Textarea for Project Background -->
+      <div class="mb-3">
+          <label for="projectBackground" class="form-label">Background</label>
+          <textarea class="form-control" id="projectBackground" rows="3" aria-describedby="projectBackgroundHelp"></textarea>
+          <div id="projectBackgroundHelp" class="form-text">Describe the background of your project.</div>
+      </div>
+
+      <!-- Textarea for Takeaways -->
+      <div class="mb-3">
+          <label for="projectTakeaways" class="form-label">Key Takeaways</label>
+          <textarea class="form-control" id="projectTakeaways" rows="3" aria-describedby="projectTakeawaysHelp"></textarea>
+          <div id="projectTakeawaysHelp" class="form-text">Describe the key takeaways you want the audience to have from the visualization.</div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
 {% endblock %}
 
