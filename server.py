@@ -19,7 +19,7 @@ import time
 load_dotenv()
 
 client = OpenAI(
-  organization=os.getenv("OPENAI_API"),
+  organization=os.environ.get("OPENAI_API"),
 )
 
 app = FastAPI()
