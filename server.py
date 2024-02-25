@@ -65,7 +65,9 @@ def wait_for_run_completion(client, thread_id, run_id, sleep_interval=5):
     :param run_id: The ID of the run.
     :param sleep_interval: Time in seconds to wait between checks.
     """
-    while True:
+    i=0
+    while True and i < 100:
+        i+=1
         try:
             run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
             if run.completed_at:
