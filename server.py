@@ -22,7 +22,6 @@ client = OpenAI(
   organization=os.getenv("OPENAI_API"),
 )
 
-
 app = FastAPI()
 templates = Jinja2Templates(directory = 'templates')
 
