@@ -79,7 +79,6 @@ def wait_for_run_completion(client, thread_id, run_id, sleep_interval=5):
                 messages = client.beta.threads.messages.list(thread_id=thread_id)
                 last_message = messages.data[0]
                 response = last_message.content[0].text.value
-                # print(f"Assistant Response: {response}")
                 return response
         except Exception as e:
             logging.error(f"An error occurred while retrieving the run: {e}")
@@ -123,7 +122,6 @@ async def upload_csv(request: Request, project_background: str = Form(...), proj
 
     # === Run ===
     response = wait_for_run_completion(client=client, thread_id=thread.id, run_id=run.id)
-    # run_steps = client.beta.threads.runs.steps.list(thread_id=thread.id, run_id=run.id)
-    print(response)
-    return JSONResponse(response)
+    # return None
+    return JSONResponse(content={"message": response})
 

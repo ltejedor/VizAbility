@@ -19,7 +19,7 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
   </div>
 </section>
 
-<div class="container mt-4">
+<div id="form-container" class="container mt-4">
   <h2>Generate Professional Visualizations</h2>
   <p>Upload a CSV, background, and insights you'd like your audience to take away. We'll generate three professional visualizations with pros and cons for you to either (1) iterate or (2) share with colleagues for feedback.</p>
   <form id="uploadForm" method="post" enctype="multipart/form-data">
@@ -49,11 +49,15 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
   </form>
 </div>
 
+<div id="visualization-options" class="container mt-4">
+
+</div>
+
 <script>
-  
   document.getElementById('uploadForm').addEventListener('submit', function(e) {
       e.preventDefault(); // Prevent the default form submission
       var formData = new FormData(document.getElementById('uploadForm'));
+      
       fetch('/', {
           method: 'post',
           body: formData,
@@ -62,13 +66,20 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
       .then(data => {
           // Handle response data from the server
           console.log(data);
-          // document.getElementById('response').textContent = `Uploaded: ${data.filename}`;
+          
+          // Hide the form-container div
+          document.getElementById('form-container').style.display = 'none';
+          
+          // Add response data to visualization-options div
+          // Assuming the API returns a text or HTML content to be inserted
+          document.getElementById('visualization-options').innerHTML = data.message; // You might need to adjust 'data.message' based on the actual structure of your response data
       })
       .catch(error => {
           console.error('Error:', error);
       });
   });
-  </script>
+</script>
+
   
 {% endblock %}
 
