@@ -117,7 +117,7 @@ async def upload_csv(request: Request, project_background: str = Form(...), proj
     run = client.beta.threads.runs.create(
         thread_id=thread.id,
         assistant_id=assist_id,
-        instructions="create the best visualization you can think of based on the data and return the vega lite code to render it",
+        instructions="code 3 visualizations based on the data and return the SVG code to render them",
     )
 
     # === Run ===
