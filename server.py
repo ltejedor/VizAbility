@@ -36,9 +36,13 @@ def home(request: Request):
         })
 
 class Item(BaseModel):
-    search: str
+    # Include fields for the data you expect, e.g., background, takeaways
+    # For file uploads, you'll handle them separately with UploadFile
+    background: str
+    takeaways: str
 
-@app.post("/")
-async def root(item: Item):
+@app.post("/")  # Change this line to match the fetch request
+async def upload_csv():
+    # Your processing logic here
     thread = client.beta.threads.create()
     print(thread)

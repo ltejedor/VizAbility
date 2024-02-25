@@ -22,7 +22,7 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
 <div class="container mt-4">
   <h2>Generate Professional Visualizations</h2>
   <p>Upload a CSV, background, and insights you'd like your audience to take away. We'll generate three professional visualizations with pros and cons for you to either (1) iterate or (2) share with colleagues for feedback.</p>
-  <form>
+  <form id="uploadForm" method="post" enctype="multipart/form-data">
       <!-- File input for CSV Upload -->
       <div class="mb-3">
           <label for="csvFileInput" class="form-label">Upload CSV</label>
@@ -48,5 +48,29 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
       <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
+
+<script>
+  document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent the default form submission
+  
+      //const formData = new FormData(this); // 'this' refers to the form
+  
+      fetch('/', {
+          method: 'post',
+          //body: formData,
+      })
+      .then(response => response.json()) // Assuming the server responds with JSON
+      .then(data => {
+          // Handle response data from the server
+          console.log(data);
+          // You can update the DOM based on the response. For example:
+          // document.getElementById('response').textContent = `Uploaded: ${data.filename}`;
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  });
+  </script>
+  
 {% endblock %}
 
