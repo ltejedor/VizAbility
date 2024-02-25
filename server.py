@@ -8,8 +8,6 @@ from fastapi.responses import JSONResponse
 import requests
 import replicate
 from openai import OpenAI
-import matplotlib.pyplot as plt
-import numpy as np
 import random
 from dotenv import load_dotenv
 import os
