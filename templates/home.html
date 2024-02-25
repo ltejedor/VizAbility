@@ -26,21 +26,21 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
       <!-- File input for CSV Upload -->
       <div class="mb-3">
           <label for="csvFileInput" class="form-label">Upload CSV</label>
-          <input class="form-control" type="file" id="csvFileInput" accept=".csv" aria-describedby="csvFileHelp">
+          <input class="form-control" type="file" id="csvFileInput" name="csv_file" accept=".csv" aria-describedby="csvFileHelp">
           <div id="csvFileHelp" class="form-text">Upload your project CSV file here.</div>
       </div>
 
       <!-- Textarea for Project Background -->
       <div class="mb-3">
           <label for="projectBackground" class="form-label">Background</label>
-          <textarea class="form-control" id="projectBackground" rows="3" aria-describedby="projectBackgroundHelp"></textarea>
+          <textarea class="form-control" id="projectBackground" name="project_background" rows="3" aria-describedby="projectBackgroundHelp"></textarea>
           <div id="projectBackgroundHelp" class="form-text">Describe the background of your project.</div>
       </div>
 
       <!-- Textarea for Takeaways -->
       <div class="mb-3">
           <label for="projectTakeaways" class="form-label">Key Takeaways</label>
-          <textarea class="form-control" id="projectTakeaways" rows="3" aria-describedby="projectTakeawaysHelp"></textarea>
+          <textarea class="form-control" id="projectTakeaways" name="project_takeaways" rows="3" aria-describedby="projectTakeawaysHelp"></textarea>
           <div id="projectTakeawaysHelp" class="form-text">Describe the key takeaways you want the audience to have from the visualization.</div>
       </div>
 
@@ -50,20 +50,18 @@ Implements a simple Bootstrap 5 form submission interface for YOLOv5 detection.
 </div>
 
 <script>
+  
   document.getElementById('uploadForm').addEventListener('submit', function(e) {
       e.preventDefault(); // Prevent the default form submission
-  
-      //const formData = new FormData(this); // 'this' refers to the form
-  
+      var formData = new FormData(document.getElementById('uploadForm'));
       fetch('/', {
           method: 'post',
-          //body: formData,
+          body: formData,
       })
       .then(response => response.json()) // Assuming the server responds with JSON
       .then(data => {
           // Handle response data from the server
           console.log(data);
-          // You can update the DOM based on the response. For example:
           // document.getElementById('response').textContent = `Uploaded: ${data.filename}`;
       })
       .catch(error => {
