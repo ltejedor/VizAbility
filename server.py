@@ -24,22 +24,20 @@ client = OpenAI(
   organization=os.getenv("OPENAI_API"),
 )
 
-# my_assistant = client.beta.assistants.retrieve("asst_N9nNHYnL43daWRkhoGXIwfJw")
 
 app = FastAPI()
 templates = Jinja2Templates(directory = 'templates')
 
 # ###################
-# file_path = "./disasters.csv"
-# file_object = client.files.create(file=open(file_path, "rb"), 
-#                                   purpose="assistants")
-# assistant = client.beta.assistants.create(
-#     name="Data Visualization Assistant",
-#     instructions="You are a visualization designer. You provide recommendation on what visualization to use for different types of data. You also critique visualizations",
-#     tools=[{"type": "retrieval"}],
-#     model="gpt-4-turbo-preview",
-#     file_ids=[file_object.id]
-# )
+file_path = "budgets.json"
+
+def upload_file(file_path):
+     # Upload a file with an "assistants" purpose
+        file_to_upload = client.files.create(
+             file=open(file_path, "rb"),
+             purpose='assistants'
+             )
+        return file_to_upload
 
 assist_id = "asst_N9nNHYnL43daWRkhoGXIwfJw"
 
@@ -81,8 +79,8 @@ def wait_for_run_completion(client, thread_id, run_id, sleep_interval=5):
                 messages = client.beta.threads.messages.list(thread_id=thread_id)
                 last_message = messages.data[0]
                 response = last_message.content[0].text.value
-                print(f"Assistant Response: {response}")
-                break
+                # print(f"Assistant Response: {response}")
+                return response
         except Exception as e:
             logging.error(f"An error occurred while retrieving the run: {e}")
             break
@@ -102,37 +100,30 @@ async def upload_csv(request: Request, project_background: str = Form(...), proj
 
     form_data = await request.form()
     project_background = form_data['project_background']
-    print(project_background)
     project_takeaways = form_data['project_takeaways']
-    csv_file = form_data['csv_file']
+    # csv_file = form_data['csv_file']
 
-    thread = client.beta.threads.create(
-        messages=[
-            {
-                "role": "user",
-                "content": project_background,
-            }
-        ]
-    )
+    uploaded_file = upload_file(file_path)
+
+    thread = client.beta.threads.create()
+
     message = client.beta.threads.messages.create(
-        thread_id = thread.id, 
+        thread_id=thread.id, 
         content=project_background,
-        role="user")
-    print(message)
+        role="user",
+        file_ids=[uploaded_file.id]
+    )
 
     # === Run our Assistant ===
     run = client.beta.threads.runs.create(
         thread_id=thread.id,
         assistant_id=assist_id,
-        instructions="Please provide a visualization recommendation for the project",
+        instructions="create the best visualization you can think of based on the data and return the vega lite code to render it",
     )
 
     # === Run ===
-    wait_for_run_completion(client=client, thread_id=thread.id, run_id=run.id)
-    run_steps = client.beta.threads.runs.steps.list(thread_id=thread.id, run_id=run.id)
-
-    # return None
-    return JSONResponse(content={"message": "data received"})
-
-
+    response = wait_for_run_completion(client=client, thread_id=thread.id, run_id=run.id)
+    # run_steps = client.beta.threads.runs.steps.list(thread_id=thread.id, run_id=run.id)
+    print(response)
+    return JSONResponse(response)
 
